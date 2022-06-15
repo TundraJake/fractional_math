@@ -3,8 +3,9 @@ class Operations(object):
     SUB = '-'
     DIV = '/'
     MUL = '*'
+    UNDERSCORE = '_'
     
-    operators = [ADD, SUB, DIV, MUL]
+    operators = [ADD, SUB, MUL]
 
 class Operator(object):
 

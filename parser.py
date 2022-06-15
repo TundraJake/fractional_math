@@ -28,6 +28,14 @@ class Parser(object):
                 while position < total_exp_len and exp_string[position].isnumeric():
                     number_so_far += exp_string[position]
                     position += 1
+                    if position < total_exp_len and exp_string[position] == Operations.UNDERSCORE:
+                        number_so_far += exp_string[position]
+                        position += 1
+                    if position < total_exp_len and exp_string[position] == Operations.DIV:
+                        number_so_far += exp_string[position]
+                        position += 1
+
+
 
                 self.Numbers.append(Number(number_so_far))
                 number_so_far = ''

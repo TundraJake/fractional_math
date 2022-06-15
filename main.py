@@ -52,15 +52,15 @@ class Test_Parser(unittest.TestCase):
         exp = Expression('1 - 5 * 10 + 1/1')
         self.assertEqual(exp.get_expression_string(), '1-5*10+1/1')
         parser = Parser(exp)
-        self.assertEqual(parser.get_operator_count(),  4)
-        self.assertEqual(parser.get_number_count(),  5)
+        self.assertEqual(parser.get_operator_count(),  3)
+        self.assertEqual(parser.get_number_count(),  4)
                 
-    # def test_fraction(self):
-    #     exp = Expression('1_1/5')
-    #     self.assertEqual(exp.get_expression_string(), '1_1/5')
-    #     parser = Parser(exp)
-    #     self.assertEqual(parser.get_operator_count(),  0)
-    #     self.assertEqual(parser.get_number_count(),  1)
+    def test_fraction(self):
+        exp = Expression('1_1/5')
+        self.assertEqual(exp.get_expression_string(), '1_1/5')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(),  0)
+        self.assertEqual(parser.get_number_count(),  1)
                 
 
 class Test_Simple_Operations(unittest.TestCase):
