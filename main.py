@@ -1,3 +1,10 @@
+import unittest
+from unittest.case import TestCase
+
+class Test_Simple_Operations(unittest.TestCase):
+
+    def test_addition(self):
+        self.assertEqual('1 + 1', 2)
 
 if __name__ == '__main__':
-    print('run')
+    unittest.main()
