@@ -1,5 +1,5 @@
 import random
-from operand import Operations, Operator
+from operator import Operations, Operator
 from expression import Expression
 from number import Number
 
