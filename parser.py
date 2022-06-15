@@ -1,4 +1,5 @@
-from operand import Operand
+import random
+from operand import Operations, Operator
 from expression import Expression
 from number import Number
 
@@ -7,19 +8,38 @@ class Parser(object):
     def __init__(self, _expression):
         self.expression = _expression
         self.Numbers = []
+        self.Operators = []
         self.parse()
 
     def parse(self):
         total_exp_len = self.expression.get_length()
         exp_string = self.expression.get_expression()
-        number = ''
-        for position in range(total_exp_len):
+        number_so_far = ''
+        position = 0
+
+        while position < total_exp_len:
+
+            if self.__is_operator(exp_string[position]):
+                self.Operators.append(Operator(exp_string[position]))
+                position += 1
+
+
             if exp_string[position].isnumeric():
-                number += exp_string[position]
-                if len(number) >= 1 and position+1 == total_exp_len:
-                    self.Numbers.append(Number(number))
-                    number = ''
-            position += 1
+                while position < total_exp_len and exp_string[position].isnumeric():
+                    number_so_far += exp_string[position]
+                    position += 1
+
+                self.Numbers.append(Number(number_so_far))
+                number_so_far = ''
+
+
+
+
+    def __is_operator(self, char):
+        return char in Operations.operators
 
     def get_number_count(self):
         return len(self.Numbers)
+
+    def get_operator_count(self):
+        return len(self.Operators)

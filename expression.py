@@ -2,6 +2,7 @@
 class Expression(object):
 
     def __init__(self, expression):
+        expression = expression.replace(' ', '')
         if len(expression) == 0:
             raise Exception('Expression is empty')
         self._expression = expression
