@@ -104,6 +104,12 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator_count(), 4, parser.print_operators())
         self.assertEqual(parser.get_number_count(),  5, parser.print_numbers())
 
+    def test_negative_fraction(self):
+        exp = Expression('-1_1/5')
+        self.assertEqual(exp.get_expression_string(), '-1_1/5')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 0, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  1, parser.print_numbers())
 
 class Test_Simple_Operations(unittest.TestCase):
 
