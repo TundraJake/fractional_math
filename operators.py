@@ -11,3 +11,6 @@ class Operator(object):
 
     def __init__(self, operator):
         self._operator = operator
+
+    def get_operator(self):
+        return self._operator

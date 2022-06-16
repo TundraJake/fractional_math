@@ -11,6 +11,18 @@ class Parser(object):
         self.Operators = []
         self.parse()
 
+    def print_operators(self):
+        str = 'Operators: '
+        for op in self.Operators:
+            str += op.get_operator() + ','
+        return str
+
+    def print_numbers(self):
+        str = 'Numbers: '
+        for num in self.Numbers:
+            str += num.get_number() + ','
+        return str
+
     def parse(self):
         total_exp_len = self.expression.get_length()
         exp_string = self.expression.get_expression()
@@ -22,6 +34,11 @@ class Parser(object):
             if self.__is_operator(exp_string[position]):
                 if exp_string[position] == Operations.SUB and exp_string[position+1].isnumeric() and position == 0:
                     number_so_far += exp_string[position]
+
+                elif exp_string[position] == Operations. SUB and exp_string[position+1] == Operations.SUB and position != 0:
+                    self.Operators.append(Operator(Operations.ADD))
+                    position += 1
+                    
                 else:
                     self.Operators.append(Operator(exp_string[position]))
                 position += 1
