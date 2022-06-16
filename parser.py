@@ -20,9 +20,11 @@ class Parser(object):
         while position < total_exp_len:
 
             if self.__is_operator(exp_string[position]):
-                self.Operators.append(Operator(exp_string[position]))
+                if exp_string[position] == Operations.SUB and exp_string[position+1].isnumeric() and position == 0:
+                    number_so_far += exp_string[position]
+                else:
+                    self.Operators.append(Operator(exp_string[position]))
                 position += 1
-
 
             if exp_string[position].isnumeric():
                 while position < total_exp_len and exp_string[position].isnumeric():

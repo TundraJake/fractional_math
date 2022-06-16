@@ -1,10 +1,10 @@
-from parser import Parser
 import unittest
-from unittest.case import TestCase
 from parser import Parser
 from expression import Expression
 import random
 import string
+import sys, os
+sys.path.append(os.path.abspath(os.path.join('..', 'config')))
 
 class Test_Parser(unittest.TestCase):
     
@@ -82,7 +82,13 @@ class Test_Parser(unittest.TestCase):
         parser = Parser(exp)
         self.assertEqual(parser.get_operator_count(),  2)
         self.assertEqual(parser.get_number_count(),  3)
-                                
+
+    def test_negative_numbers(self):
+        exp = Expression('-1')
+        self.assertEqual(exp.get_expression_string(), '-1')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 0)
+        self.assertEqual(parser.get_number_count(),  1)
 
 class Test_Simple_Operations(unittest.TestCase):
 
