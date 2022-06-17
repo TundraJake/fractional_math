@@ -111,6 +111,20 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator_count(), 0, parser.print_operators())
         self.assertEqual(parser.get_number_count(),  1, parser.print_numbers())
 
+    def test_multiple_negative_fraction(self):
+        exp = Expression('-1_1/5 - 1_1/6')
+        self.assertEqual(exp.get_expression_string(), '-1_1/5-1_1/6')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+
+    def test_multiple_negative_fraction_with_double_negative(self):
+        exp = Expression('-1_1/5 -- 1_1/7')
+        self.assertEqual(exp.get_expression_string(), '-1_1/5--1_1/7')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_addition(self):
