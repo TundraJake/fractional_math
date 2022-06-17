@@ -44,15 +44,9 @@ class Parser(object):
                 position += 1
 
             if exp_string[position].isnumeric():
-                while position < total_exp_len and exp_string[position].isnumeric():
+                while position < total_exp_len and (exp_string[position].isnumeric() or exp_string[position] == Operations.UNDERSCORE or exp_string[position] == Operations.DIV):
                     number_so_far += exp_string[position]
                     position += 1
-                    if position < total_exp_len and exp_string[position] == Operations.UNDERSCORE:
-                        number_so_far += exp_string[position]
-                        position += 1
-                    if position < total_exp_len and exp_string[position] == Operations.DIV:
-                        number_so_far += exp_string[position]
-                        position += 1
 
 
 
@@ -70,3 +64,9 @@ class Parser(object):
 
     def get_operator_count(self):
         return len(self.Operators)
+    
+    def get_number(self, position):
+        try:
+            return self.Numbers[position]
+        except:
+            raise Exception('Array position out of bounds!')
