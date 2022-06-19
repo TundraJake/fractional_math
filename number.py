@@ -10,14 +10,17 @@ class Number(object):
     def __init__(self, number):
         if not Operations.UNDERSCORE in number and not Operations.DIV in number:
             self._whole = int(number)
-        elif Operations.DIV in number:
-            self._num = int(number.split('/')[0])
-            self._den = int(number.split('/')[1])
         else:
-            temp = number.split('_')
-            self._whole = int(temp[0])
-            self._num = int(temp[1].split('/')[0])
-            self._den = int(temp[1].split('/')[1])
+            temp = None
+            if Operations.UNDERSCORE in number:
+                temp = number.split('_')
+                self._whole = int(temp[0])
+                self._num = int(temp[1].split('/')[0])
+                self._den = int(temp[1].split('/')[1])
+            else:
+                self._num = int(number.split('/')[0])
+                self._den = int(number.split('/')[1])
+            #print('the recorded number: ', self.get_number())
 
     def get_number(self):
         if self._den > 0 and abs(self._whole) > 0:

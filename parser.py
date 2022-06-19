@@ -32,12 +32,13 @@ class Parser(object):
         while position < total_exp_len:
 
             if self.__is_operator(exp_string[position]):
-                if exp_string[position] == Operations.SUB and exp_string[position+1].isnumeric() and position == 0:
-                    number_so_far += exp_string[position]
-
-                elif exp_string[position] == Operations. SUB and exp_string[position+1] == Operations.SUB and position != 0:
+                if exp_string[position] == Operations. SUB and exp_string[position+1] == Operations.SUB and position != 0:
                     self.Operators.append(Operator(Operations.ADD))
                     position += 1
+                    number_so_far += exp_string[position]
+
+                elif exp_string[position] == Operations.SUB and exp_string[position+1].isnumeric() and position == 0:
+                    number_so_far += exp_string[position]
                     
                 else:
                     self.Operators.append(Operator(exp_string[position]))
@@ -67,6 +68,6 @@ class Parser(object):
     
     def get_number(self, position):
         try:
-            return self.Numbers[position]
+            return self.Numbers[position].get_number()
         except:
             raise Exception('Array position out of bounds!')
