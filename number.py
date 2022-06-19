@@ -36,3 +36,6 @@ class Number(object):
 
     def get_value(self):
         return self.get_number()
+
+    def __add__(self, rhs):
+        return str(self._whole + rhs._whole)

@@ -223,8 +223,11 @@ class Test_Simple_Operations(unittest.TestCase):
         exp = Expression('1 + 1')
         parser = Parser(exp)
         rvp = ReversePolishNotation(parser)
+        rvp.calculate()
         self.assertEqual(rvp.get_stack_value(0), '1')
-        self.assertEqual(rvp.get_calculation(), 2)
+        self.assertEqual(rvp.get_stack_value(1), '1')
+        self.assertEqual(rvp.get_stack_value(2), '+')
+        self.assertEqual(rvp.get_calculation(), '2')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
