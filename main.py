@@ -177,16 +177,6 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(1), '2_1/2', parser.print_numbers())
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
 
-    def test_division_3(self):
-        exp = Expression('100 / 4')
-        self.assertEqual(exp.get_expression_string(), '100/4')
-        parser = Parser(exp)
-        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
-        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
-        self.assertEqual(parser.get_number(0), '100', parser.print_numbers())
-        self.assertEqual(parser.get_number(1), '4', parser.print_numbers())
-        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
-
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_addition(self):
