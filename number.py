@@ -38,4 +38,6 @@ class Number(object):
         return self.get_number()
 
     def __add__(self, rhs):
-        return str(self._whole + rhs._whole)
+        string = '' 
+        string = str(self._whole + rhs._whole)
+        return Number(string)

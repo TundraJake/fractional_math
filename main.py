@@ -2,7 +2,7 @@ import unittest
 from parser import Parser
 from expression import Expression
 from operators import Operations
-from rpn import ReversePolishNotation
+from exp_evaluator import ExpEvaluator
 import random
 import string
 import sys, os
@@ -219,15 +219,29 @@ class Test_Parser(unittest.TestCase):
 
 class Test_Simple_Operations(unittest.TestCase):
 
-    def test_addition(self):
+    def test_whole_number_addition_1(self):
         exp = Expression('1 + 1')
         parser = Parser(exp)
-        rvp = ReversePolishNotation(parser)
+        rvp = ExpEvaluator(parser)
         rvp.calculate()
-        self.assertEqual(rvp.get_stack_value(0), '1')
-        self.assertEqual(rvp.get_stack_value(1), '1')
-        self.assertEqual(rvp.get_stack_value(2), '+')
         self.assertEqual(rvp.get_calculation(), '2')
+
+    def test_whole_number_addition_2(self):
+        exp = Expression('1 + 1 + 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '3')
+
+    def test_whole_number_addition_3(self):
+        exp = Expression('5 + 24 + 721 + 10 + 40')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '800')
+
+
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
