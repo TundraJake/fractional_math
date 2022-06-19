@@ -1,6 +1,7 @@
 import unittest
 from parser import Parser
 from expression import Expression
+from operators import Operations
 import random
 import string
 import sys, os
@@ -33,6 +34,7 @@ class Test_Parser(unittest.TestCase):
         parser = Parser(exp)
         self.assertEqual(parser.get_operator_count(),  1)
         self.assertEqual(parser.get_number_count(),  2)
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
 
     def test_long_simple_expression_1(self):
         exp = Expression('1 + 5 + 10')
@@ -40,6 +42,11 @@ class Test_Parser(unittest.TestCase):
         parser = Parser(exp)
         self.assertEqual(parser.get_operator_count(),  2)
         self.assertEqual(parser.get_number_count(),  3)
+        self.assertEqual(parser.get_number(0),  '1')
+        self.assertEqual(parser.get_number(1),  '5')
+        self.assertEqual(parser.get_number(2),  '10')
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_operator(1), Operations.ADD, parser.print_operators())
 
     def test_long_simple_expression_2(self):
         exp = Expression('1 - 5 * 10')
@@ -47,6 +54,8 @@ class Test_Parser(unittest.TestCase):
         parser = Parser(exp)
         self.assertEqual(parser.get_operator_count(),  2)
         self.assertEqual(parser.get_number_count(),  3)
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_operator(1), Operations.MUL, parser.print_operators())
                 
     def test_long_simple_expression_3(self):
         exp = Expression('1 - 5 * 10 + 1/1')
@@ -139,8 +148,12 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(1), '-1_1/7', parser.print_numbers())
         self.assertEqual(parser.get_number(2), '4', parser.print_numbers())
         self.assertEqual(parser.get_number(3), '7_1/2', parser.print_numbers())
-        self.assertEqual(parser.get_number(4), '3/4', parser.print_numbers())
-
+        self.assertEqual(parser.get_number(4), '-3/4', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_operator(1), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_operator(2), Operations.MUL, parser.print_operators())
+        self.assertEqual(parser.get_operator(3), Operations.ADD, parser.print_operators())
+        
 
 class Test_Simple_Operations(unittest.TestCase):
 

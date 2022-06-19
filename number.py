@@ -20,7 +20,6 @@ class Number(object):
             else:
                 self._num = int(number.split('/')[0])
                 self._den = int(number.split('/')[1])
-            #print('the recorded number: ', self.get_number())
 
     def get_number(self):
         if self._den > 0 and abs(self._whole) > 0:
