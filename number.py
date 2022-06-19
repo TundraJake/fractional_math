@@ -41,3 +41,13 @@ class Number(object):
         string = '' 
         string = str(self._whole + rhs._whole)
         return Number(string)
+
+    def __mul__(self, rhs):
+        string = '' 
+        string = str(self._whole * rhs._whole)
+        return Number(string)
+
+    def __div__(self, rhs):
+        string = '' 
+        string = str(self._whole * rhs._whole)
+        return Number(string)

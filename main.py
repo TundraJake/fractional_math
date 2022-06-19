@@ -240,7 +240,75 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '800')
 
+    def test_whole_number_subtraction_1(self):
+        exp = Expression('1 - 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
 
+    def test_whole_number_subtraction_2(self):
+        exp = Expression('1 - 1 - 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1')
+
+    def test_whole_number_subtraction_3(self):
+        exp = Expression('1 - 1 - 999')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-999')
+
+    def test_whole_number_multiplication_1(self):
+        exp = Expression('10 * 10')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '100')
+
+    def test_whole_number_multiplication_2(self):
+        exp = Expression('10 * 10 * 10')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1000')
+
+    def test_whole_number_multiplication_3(self):
+        exp = Expression('10 * -10 * 10')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1000')
+
+    def test_whole_number_multiplication_4(self):
+        exp = Expression('-10 * 10 * -10')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1000')
+
+    def test_whole_number_division_1(self):
+        exp = Expression('1 / 2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/2')
+
+    def test_whole_number_division_2(self):
+        exp = Expression('1 / 23')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/23')
+
+    def test_whole_number_division_3(self):
+        exp = Expression('1 / 23 / 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/23')
 
 
 if __name__ == '__main__':

@@ -20,8 +20,9 @@ class ExpEvaluator(object):
 
     def calculate(self):
         iter = 0 
+        total_elements = len(self._Elements)
         # print(f'starting elements', self._Elements)
-        while len(self._Elements) != 1:
+        while len(self._Elements) != 1 and iter < total_elements:
             # print(f'len of items {len(self._Elements)} and iter is {iter}')
             element = self._Elements[iter].get_value()
             if element == Operations.ADD:
@@ -29,7 +30,20 @@ class ExpEvaluator(object):
                 self._Elements[iter] = number
                 del self._Elements[iter+1]
                 del self._Elements[iter-1]
+                iter = 0
+
+            if element == Operations.MUL:
+                number = self._Elements[iter-1] * self._Elements[iter+1]
+                self._Elements[iter] = number
+                del self._Elements[iter+1]
+                del self._Elements[iter-1]
+                iter = 0
                 
+            if element == Operations.DIV:
+                number = self._Elements[iter-1] * self._Elements[iter+1]
+                self._Elements[iter] = number
+                del self._Elements[iter+1]
+                del self._Elements[iter-1]
                 iter = 0
 
             iter += 1
