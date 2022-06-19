@@ -122,14 +122,17 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number_count(),  1, parser.print_numbers())
         self.assertEqual(parser.get_number(0), '-1_1/5', parser.print_numbers())
 
-    def test_multiple_negative_fraction(self):
+    def test_multiple_negative_fractions(self):
         exp = Expression('-1_1/5 - 1_1/6')
         self.assertEqual(exp.get_expression_string(), '-1_1/5-1_1/6')
         parser = Parser(exp)
         self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
         self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '-1_1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '-1_1/6', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())        
 
-    def test_multiple_negative_fraction_with_double_negative_1(self):
+    def test_multiple_negative_fractions_with_double_negative_1(self):
         exp = Expression('-1_1/5 -- 1_1/7')
         self.assertEqual(exp.get_expression_string(), '-1_1/5--1_1/7')
         parser = Parser(exp)
@@ -137,8 +140,9 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
         self.assertEqual(parser.get_number(0), '-1_1/5', parser.print_numbers())
         self.assertEqual(parser.get_number(1), '-1_1/7', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
 
-    def test_multiple_negative_fraction_with_double_negative_2(self):
+    def test_multiple_negative_fractions_with_double_negative_2(self):
         exp = Expression('-1_1/5 -- 1_1/7 + 4 * 7_1/2 - 3/4')
         self.assertEqual(exp.get_expression_string(), '-1_1/5--1_1/7+4*7_1/2-3/4')
         parser = Parser(exp)
@@ -154,6 +158,34 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator(2), Operations.MUL, parser.print_operators())
         self.assertEqual(parser.get_operator(3), Operations.ADD, parser.print_operators())
         
+    def test_division_1(self):
+        exp = Expression('1/5 / 1/2')
+        self.assertEqual(exp.get_expression_string(), '1/5/1/2')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '1/2', parser.print_numbers())
+
+    def test_division_2(self):
+        exp = Expression('1_1/5 / 2_1/2')
+        self.assertEqual(exp.get_expression_string(), '1_1/5/2_1/2')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number(0), '1_1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '2_1/2', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+
+    def test_division_3(self):
+        exp = Expression('100 / 4')
+        self.assertEqual(exp.get_expression_string(), '100/4')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number(0), '100', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '4', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
 
 class Test_Simple_Operations(unittest.TestCase):
 

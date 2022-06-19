@@ -5,7 +5,7 @@ class Operations(object):
     MUL = '*'
     UNDERSCORE = '_'
     
-    operators = [ADD, SUB, MUL]
+    operators = [ADD, SUB, MUL, DIV]
 
 class Operator(object):
 

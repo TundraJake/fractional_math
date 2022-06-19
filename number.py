@@ -8,6 +8,7 @@ class Number(object):
     _den = 0
 
     def __init__(self, number):
+        # print('input number: ', number)
         if not Operations.UNDERSCORE in number and not Operations.DIV in number:
             self._whole = int(number)
         else:
