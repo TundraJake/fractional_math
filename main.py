@@ -2,6 +2,7 @@ import unittest
 from parser import Parser
 from expression import Expression
 from operators import Operations
+from rpn import ReversePolishNotation
 import random
 import string
 import sys, os
@@ -214,7 +215,10 @@ class Test_Parser(unittest.TestCase):
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_addition(self):
-        self.assertEqual('1 + 1', 2)
+        exp = Expression('1 + 1')
+        parser = Parser(exp)
+        value = ReversePolishNotation(parser) 
+        self.assertEqual(1, 2)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
