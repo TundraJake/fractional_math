@@ -33,3 +33,6 @@ class Number(object):
     def get_whole_number(self):
         if self._whole:
             return self._whole
+
+    def get_value(self):
+        return self.get_number()

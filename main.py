@@ -15,6 +15,7 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(exp.get_expression_string(), '1')
         parser = Parser(exp)
         self.assertEqual(parser.get_number_count(),  1)
+        self.assertEqual(parser.get_element_count(),  1)
 
     def test_double_char(self):
         exp = Expression('10')
@@ -36,6 +37,8 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator_count(),  1)
         self.assertEqual(parser.get_number_count(),  2)
         self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  3)
+
 
     def test_long_simple_expression_1(self):
         exp = Expression('1 + 5 + 10')
@@ -201,6 +204,7 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(2), '-3_1/3', parser.print_numbers())
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
         self.assertEqual(parser.get_operator(1), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  5)
 
     def test_division_5(self):
         exp = Expression('-1/5 / -1/2')
@@ -211,14 +215,16 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(0), '-1/5', parser.print_numbers())
         self.assertEqual(parser.get_number(1), '-1/2', parser.print_numbers())
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  3)
 
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_addition(self):
         exp = Expression('1 + 1')
         parser = Parser(exp)
-        value = ReversePolishNotation(parser) 
-        self.assertEqual(1, 2)
+        rvp = ReversePolishNotation(parser)
+        self.assertEqual(rvp.get_stack_value(0), '1')
+        self.assertEqual(rvp.get_calculation(), 2)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
