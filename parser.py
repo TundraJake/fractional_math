@@ -39,6 +39,9 @@ class Parser(object):
                     position += 1
                     number_so_far += exp_string[position]
 
+                elif exp_string[position] == Operations.SUB and exp_string[position-1] in Operations.operators and position >= 0:
+                    number_so_far += exp_string[position]
+
                 elif exp_string[position] == Operations.SUB and exp_string[position+1].isnumeric() and position == 0:
                     number_so_far += exp_string[position]
 

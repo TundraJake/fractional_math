@@ -177,6 +177,40 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(1), '2_1/2', parser.print_numbers())
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
 
+    def test_division_3(self):
+        exp = Expression('1_1/5 / 2_1/2 / -3_1/3')
+        self.assertEqual(exp.get_expression_string(), '1_1/5/2_1/2/-3_1/3')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_number_count(),  3, parser.print_numbers())
+        self.assertEqual(parser.get_operator_count(), 2, parser.print_operators())
+        self.assertEqual(parser.get_number(0), '1_1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '2_1/2', parser.print_numbers())
+        self.assertEqual(parser.get_number(2), '-3_1/3', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_operator(1), Operations.DIV, parser.print_operators())
+
+    def test_division_4(self):
+        exp = Expression('-1_1/5 / -2_1/2 / -3_1/3')
+        self.assertEqual(exp.get_expression_string(), '-1_1/5/-2_1/2/-3_1/3')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_number_count(),  3, parser.print_numbers())
+        self.assertEqual(parser.get_operator_count(), 2, parser.print_operators())
+        self.assertEqual(parser.get_number(0), '-1_1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '-2_1/2', parser.print_numbers())
+        self.assertEqual(parser.get_number(2), '-3_1/3', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_operator(1), Operations.DIV, parser.print_operators())
+
+    def test_division_5(self):
+        exp = Expression('-1/5 / -1/2')
+        self.assertEqual(exp.get_expression_string(), '-1/5/-1/2')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '-1/5', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '-1/2', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_addition(self):
