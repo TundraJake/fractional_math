@@ -39,6 +39,15 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
         self.assertEqual(parser.get_element_count(),  3)
 
+    def test_simple_subtraction_expression(self):
+        exp = Expression('1 - 1')
+        self.assertEqual(exp.get_expression_string(), '1-1')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(),  1)
+        self.assertEqual(parser.get_number_count(),  2)
+        self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  3)
+
 
     def test_long_simple_expression_1(self):
         exp = Expression('1 + 5 + 10')
@@ -217,6 +226,17 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
         self.assertEqual(parser.get_element_count(),  3)
 
+    def test_division_6(self):
+        exp = Expression('1/ 23 / 1')
+        self.assertEqual(exp.get_expression_string(), '1/23/1')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 1, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  2, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '1/23', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '1', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  3)
+
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_whole_number_addition_1(self):
@@ -310,6 +330,12 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1/23')
 
+    def test_whole_number_division_3(self):
+        exp = Expression('1 / 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

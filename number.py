@@ -18,13 +18,20 @@ class Number(object):
                 self._whole = int(temp[0])
                 self._num = int(temp[1].split('/')[0])
                 self._den = int(temp[1].split('/')[1])
+                if self._den == 0:
+                    raise Exception(f'Denominator cannot be zero! Numerator given \'{self._num}\', Denominator \'{self._den}\'')
             else:
                 self._num = int(number.split('/')[0])
                 self._den = int(number.split('/')[1])
 
+            if self._num == self._den:
+                    self._whole += 1
+                    self._den = 0
+                    self._num = 0
+                    
     def get_number(self):
         if self._den > 0 and abs(self._whole) > 0:
-            return f'{self._whole}_{self._num}/{self._den}'
+            return f'{self._whole}_{self._num}/{self._den}'        
         elif self._den > 0:
             return f'{self._num}/{self._den}'
         else:
@@ -43,11 +50,6 @@ class Number(object):
         return Number(string)
 
     def __mul__(self, rhs):
-        string = '' 
-        string = str(self._whole * rhs._whole)
-        return Number(string)
-
-    def __div__(self, rhs):
         string = '' 
         string = str(self._whole * rhs._whole)
         return Number(string)

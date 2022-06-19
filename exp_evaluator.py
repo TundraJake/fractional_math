@@ -26,7 +26,9 @@ class ExpEvaluator(object):
             # print(f'len of items {len(self._Elements)} and iter is {iter}')
             element = self._Elements[iter].get_value()
             if element == Operations.ADD:
+                # print(f'adding {self._Elements[iter-1].get_value()} and {self._Elements[iter+1].get_value()}')
                 number = self._Elements[iter-1] + self._Elements[iter+1]
+                # print(f'new number {number.get_value()}')
                 self._Elements[iter] = number
                 del self._Elements[iter+1]
                 del self._Elements[iter-1]
@@ -40,7 +42,7 @@ class ExpEvaluator(object):
                 iter = 0
                 
             if element == Operations.DIV:
-                number = self._Elements[iter-1] * self._Elements[iter+1]
+                number = self._Elements[iter-1] / self._Elements[iter+1]
                 self._Elements[iter] = number
                 del self._Elements[iter+1]
                 del self._Elements[iter-1]
