@@ -33,7 +33,6 @@ class Parser(object):
         div_count = 0 
 
         while position < total_exp_len:
-            # print('this is the char: ', exp_string[position])
             if self.__is_operator(exp_string[position]):
                 if exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position != 0:
                     self._Operators.append(Operator(Operations.ADD))
@@ -58,24 +57,32 @@ class Parser(object):
                 position += 1
 
             if exp_string[position].isnumeric():
-                while position < total_exp_len and (exp_string[position].isnumeric() or exp_string[position] == Operations.UNDERSCORE or exp_string[position] == Operations.DIV):
+                while position < total_exp_len and (exp_string[position].isnumeric() or exp_string[position] == Operations.UNDERSCORE):
+
                     if exp_string[position] == Operations.UNDERSCORE:
+                        number_so_far += exp_string[position]
+                        position += 1
                         is_fraction = not is_fraction
-                    elif exp_string[position] == Operations.DIV:
-                        div_count += 1
-                    if div_count == 2:
-                        div_count = 0
-                        break
-                    number_so_far += exp_string[position]
-                    position += 1
+                        while is_fraction and position < total_exp_len:
 
+                            if div_count == 1 and exp_string[position] in Operations.operators:
+                                is_fraction = not is_fraction
+                                div_count = 0
+                                break
+                            elif exp_string[position] == Operations.DIV:
+                                number_so_far += exp_string[position]
+                                position += 1
+                                div_count += 1
+                            elif exp_string[position].isnumeric():
+                                number_so_far += exp_string[position]
+                                position += 1
+                    else:
+                        number_so_far += exp_string[position]
+                        position += 1
 
-                if div_count > 0:
-                    div_count = 0
                 self._Numbers.append(Number(number_so_far))
                 self._Elements.append(Number(number_so_far))
                 number_so_far = ''
-
 
 
 
