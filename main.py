@@ -6,6 +6,7 @@ from exp_evaluator import ExpEvaluator
 import random
 import string
 import sys, os
+
 sys.path.append(os.path.abspath(os.path.join('..', 'config')))
 
 class Test_Parser(unittest.TestCase):
@@ -324,18 +325,30 @@ class Test_Simple_Operations(unittest.TestCase):
         self.assertEqual(rvp.get_calculation(), '1/23')
 
     def test_whole_number_division_3(self):
-        exp = Expression('1 / 23 / 1')
+        exp = Expression('1 / 23')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1/23')
 
-    def test_whole_number_division_3(self):
-        exp = Expression('1 / 1')
-        parser = Parser(exp)
-        rvp = ExpEvaluator(parser)
-        rvp.calculate()
-        self.assertEqual(rvp.get_calculation(), '1')
+    # def test_whole_number_division_4(self):
+    #     exp = Expression('1 / 23 / 1')
+    #     parser = Parser(exp)
+    #     rvp = ExpEvaluator(parser)
+    #     rvp.calculate()
+    #     self.assertEqual(rvp.get_calculation(), '1/23')
+
+    # def test_whole_number_division_5(self):
+    #     exp = Expression('1 / 1')
+    #     parser = Parser(exp)
+    #     rvp = ExpEvaluator(parser)
+    #     rvp.calculate()
+    #     self.assertEqual(rvp.get_calculation(), '1')
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    while True:
+        inp = ''
+        print('Give a command: ')
+        inp=input()
+        if inp == 'test':
+            unittest.main(verbosity=2, exit=False)

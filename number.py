@@ -28,7 +28,7 @@ class Number(object):
                     self._whole += 1
                     self._den = 0
                     self._num = 0
-                    
+
     def get_number(self):
         if self._den > 0 and abs(self._whole) > 0:
             return f'{self._whole}_{self._num}/{self._den}'        
@@ -52,4 +52,14 @@ class Number(object):
     def __mul__(self, rhs):
         string = '' 
         string = str(self._whole * rhs._whole)
+        return Number(string)
+
+    def __truediv__(self, rhs):
+        string = '' 
+
+        if (self._den > 0) or (rhs._den > 0):
+            string = ''
+        else:
+            string = f'{self._whole}/{rhs._whole}'
+
         return Number(string)
