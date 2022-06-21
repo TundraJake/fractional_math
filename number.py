@@ -108,15 +108,11 @@ class Number(object):
 
     def __truediv__(self, rhs):
         string = '' 
-        if (self.get_denominator() > 0) and (rhs.get_denominator() > 0):
 
-            new_num = self.get_numerator() * rhs.get_denominator()
-            new_den = self.get_denominator() * rhs.get_numerator()
+        new_num = self.get_numerator() * rhs.get_denominator()
+        new_den = self.get_denominator() * rhs.get_numerator()
 
-            string = f'{new_num}/{new_den}'
-
-        elif self.get_denominator() == 0 and rhs.get_denominator() == 0:
-            string = f'{self._whole}/{rhs._whole}'
+        string = f'{new_num}/{new_den}'
 
 
         return Number(string)
