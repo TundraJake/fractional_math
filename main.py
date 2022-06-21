@@ -589,6 +589,19 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '4_133/141')
         
+    def test_fraction_addition_and_subtraction_07(self):
+        exp = Expression('--1_1/2 + 1_1/2 + 1_1/2 -- 1_1/2 - 1_24/423 + 1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '5_125/282')
+
+    def test_fraction_multiplikcation_01(self):
+        exp = Expression('1/2 * 1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/4')
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, exit=True)
