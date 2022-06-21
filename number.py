@@ -9,7 +9,7 @@ class Number(object):
     _gcd = 0
 
     def __init__(self, number):
-
+        
         if not Operations.UNDERSCORE in number and not Operations.DIV in number:
             self._num = int(number)
             self._den = 1
@@ -44,8 +44,6 @@ class Number(object):
             if self._gcd > 1:
                 self._num = int(self._num / self._gcd)
                 self._den = int(self._den / self._gcd)
-
-            print('end result:' , self._num, self._den, self._negative)
 
     def get_number(self):
         if self.get_denominator() == 1:
@@ -96,13 +94,17 @@ class Number(object):
 
     def __add__(self, rhs):
         string = '' 
-        if self.get_denominator() == 1 and rhs.get_denominator() == 1:
-            string = str(self.get_numerator() + rhs.get_numerator())
+        # if self.get_denominator() == rhs.get_denominator():
+        #     string = str(self.get_numerator() + rhs.get_numerator())
+        # else:
+        num = rhs.get_denominator() * self.get_numerator() + rhs.get_numerator() * self.get_denominator()
+        den = self.get_denominator() * rhs.get_denominator()
+        string = f'{num}/{den}'
         return Number(string)
 
     def __mul__(self, rhs):
         string = ''
-        if self.get_denominator() == 1 and rhs.get_denominator() == 1: 
+        if self.get_denominator() == rhs.get_denominator(): 
             string = str(self.get_numerator() * rhs.get_numerator())
         return Number(string)
 
@@ -113,6 +115,5 @@ class Number(object):
         new_den = self.get_denominator() * rhs.get_numerator()
 
         string = f'{new_num}/{new_den}'
-
 
         return Number(string)
