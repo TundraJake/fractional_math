@@ -9,7 +9,6 @@ class ExpEvaluator(object):
         self._Elements = copy.deepcopy(parser.get_elements())
         self._calculation = 0
         self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
-        print('the ops', self._ops_to_perform)
         self._highest_precedence = ['*', '/']
         self._lowest_precedence = ['+', '-']
 
@@ -71,7 +70,7 @@ class ExpEvaluator(object):
 
             if iter == len(self._Elements):
                 iter = 0
-                
+
         self._calculation = self._Elements[0].get_value()
 
         
