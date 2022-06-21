@@ -87,7 +87,6 @@ class Number(object):
         string = ''
         num = 0
         den = 0
-        print('wtf ', self.get_numerator(), rhs.get_numerator() )
         if self.get_numerator() == 0:
             num = rhs.get_numerator()
             den = rhs.get_denominator()      
