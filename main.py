@@ -255,6 +255,18 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number(1), '-2', parser.print_numbers())
         self.assertEqual(parser.get_element_count(),  3)
 
+    def test_division_8(self):
+        exp = Expression('1/ 2 / 1')
+        self.assertEqual(exp.get_expression_string(), '1/2/1')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 2, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  3, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '1', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '2', parser.print_numbers())
+        self.assertEqual(parser.get_number(2), '1', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  5)        
+
 class Test_Simple_Operations(unittest.TestCase):
 
     def test_whole_number_addition_1(self):
@@ -399,6 +411,34 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '10_1/2')
+
+    def test_whole_number_division_11(self):
+        exp = Expression('1 / 2 / 2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/4')   
+
+    def test_whole_number_division_12(self):
+        exp = Expression('1 / 2 / 2 / 2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/8')
+
+    def test_whole_number_division_13(self):
+        exp = Expression('1 / 2 / 2 / 2 / 2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/16')
+
+    def test_whole_number_division_14(self):
+        exp = Expression('4 / 2 / 2 ')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1')    
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, exit=True)
