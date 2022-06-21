@@ -101,7 +101,6 @@ class Number(object):
 
     def __mul__(self, rhs):
         string = ''
-        print('here we go',self.get_numerator(), rhs.get_numerator())
         num = self.get_numerator() * rhs.get_numerator()
         den = self.get_denominator() * rhs.get_denominator()
         string = f'{num}/{den}'

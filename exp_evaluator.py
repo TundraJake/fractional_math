@@ -71,8 +71,7 @@ class ExpEvaluator(object):
 
             if iter == len(self._Elements):
                 iter = 0
-                # print('starting over')
-
+                
         self._calculation = self._Elements[0].get_value()
 
         
