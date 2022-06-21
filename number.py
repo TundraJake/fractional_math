@@ -1,11 +1,10 @@
 from operators import Operations
-from math import gcd, floor
+from math import ceil, gcd, floor
 
 class Number(object):
 
     _num = 0
     _den = 0
-    _negative = False
     _gcd = 0
 
     def __init__(self, number):
@@ -18,26 +17,24 @@ class Number(object):
             if Operations.UNDERSCORE in number:
                 temp = number.split('_')
                 whole = int(temp[0])
-                if whole < 0:
-                    self._negative = True
 
                 self._den = int(temp[1].split('/')[1])
                 if self._den == 0:
                     raise Exception(f'Denominator cannot be zero! Numerator given \'{self._num}\', Denominator \'{self._den}\'')
  
                 self._num = int(temp[1].split('/')[0]) + abs(whole) * self.get_denominator()
+                
+            
+                if whole < 0:
+                    self._num *= -1
 
             else:
                 self._num = int(number.split('/')[0])
                 self._den = int(number.split('/')[1])
 
                 if self._num < 0 and self._den < 0:
-                    self._negative = False
-                elif self._num < 0 or self._den < 0:
-                    self._negative = True
-
-                self._num = abs(self._num)
-                self._den = abs(self._den)
+                    self._num = abs(self._num)
+                    self._den = abs(self._den)
 
             self._gcd = gcd(self._num, self._den)
 
@@ -48,28 +45,22 @@ class Number(object):
     def get_number(self):
         if self.get_denominator() == 1:
             num = self.get_numerator()
-            if self.is_negative():
-                num *= -1
             return f'{num}'
         elif self.get_denominator() > 1:
-            if abs(self.get_numerator()) > abs(self.get_denominator()):
-                whole = 0
-                num = 0
-                
-                whole = int(floor(self.get_numerator() / self.get_denominator()))
-                num = self.get_numerator() % self.get_denominator()
+            if abs(self.get_numerator()) > self.get_denominator():
+                whole = int(floor(abs(self.get_numerator()) / self.get_denominator()))
+                num = abs(self.get_numerator()) % self.get_denominator()
 
-                if self.is_negative():
+                if self.is_numerator_negative():
                     whole *= -1
+
                 return f'{whole}_{num}/{self.get_denominator()}'
             else:
                 num = self.get_numerator()
-                if self.is_negative():
-                    num *= -1
                 return f'{num}/{self.get_denominator()}'
 
-    def is_negative(self):
-        return self._negative
+    def is_numerator_negative(self):
+        return self.get_numerator() < 0
 
     def get_whole_number(self):
         return self._whole
@@ -93,12 +84,19 @@ class Number(object):
         return self.get_number()
 
     def __add__(self, rhs):
-        string = '' 
-        # if self.get_denominator() == rhs.get_denominator():
-        #     string = str(self.get_numerator() + rhs.get_numerator())
-        # else:
-        num = rhs.get_denominator() * self.get_numerator() + rhs.get_numerator() * self.get_denominator()
-        den = self.get_denominator() * rhs.get_denominator()
+        string = ''
+        num = 0
+        den = 0
+        print('wtf ', self.get_numerator(), rhs.get_numerator() )
+        if self.get_numerator() == 0:
+            num = rhs.get_numerator()
+            den = rhs.get_denominator()      
+        elif rhs.get_numerator() == 0:
+            num = self.get_numerator()
+            den = self.get_denominator()
+        else:      
+            num = (rhs.get_denominator() * self.get_numerator() + rhs.get_numerator() * self.get_denominator()) 
+            den = self.get_denominator() * rhs.get_denominator()
         string = f'{num}/{den}'
         return Number(string)
 
