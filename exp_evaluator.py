@@ -25,11 +25,7 @@ class ExpEvaluator(object):
     def calculate(self):
         iter = 0
         while len(self._Elements) != 1:
-            print('first loop', self._highest_precedence[0] in self._ops_to_perform, self._highest_precedence[1] in self._ops_to_perform, self._highest_precedence[0], self._ops_to_perform)
-
             if self._highest_precedence[0] in self._ops_to_perform or self._highest_precedence[1] in self._ops_to_perform:
-                
-                print('first loop')
                 while True:
                     
                     element = self._Elements[iter].get_value()
