@@ -101,8 +101,10 @@ class Number(object):
 
     def __mul__(self, rhs):
         string = ''
-        if self.get_denominator() == rhs.get_denominator(): 
-            string = str(self.get_numerator() * rhs.get_numerator())
+        print('here we go',self.get_numerator(), rhs.get_numerator())
+        num = self.get_numerator() * rhs.get_numerator()
+        den = self.get_denominator() * rhs.get_denominator()
+        string = f'{num}/{den}'
         return Number(string)
 
     def __truediv__(self, rhs):

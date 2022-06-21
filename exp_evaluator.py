@@ -1,6 +1,6 @@
 from parser import Parser
 from tempfile import tempdir
-from operators import Operations
+from operators import Operations, Operator
 import copy
 
 class ExpEvaluator(object):
@@ -8,6 +8,10 @@ class ExpEvaluator(object):
     def __init__(self, parser):
         self._Elements = copy.deepcopy(parser.get_elements())
         self._calculation = 0
+        self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
+        print('the ops', self._ops_to_perform)
+        self._highest_precedence = ['*', '/']
+        self._lowest_precedence = ['+', '-']
 
     def num_length(self):
         return len(self._Numbers)
@@ -20,44 +24,57 @@ class ExpEvaluator(object):
 
     def calculate(self):
         iter = 0
-        op_type = 0
-        total_elements = len(self._Elements)
-        while len(self._Elements) != 1 and op_type != 5:
-            op = Operations.operators[op_type]
+        while len(self._Elements) != 1:
+            print('first loop', self._highest_precedence[0] in self._ops_to_perform, self._highest_precedence[1] in self._ops_to_perform, self._highest_precedence[0], self._ops_to_perform)
 
-            # print(f'size {len(self._Elements)} and iter {iter}')
-            element = self._Elements[iter].get_value()
-            # print(element, op)
-            # print([x.get_value() for x in self._Elements], f'op is {op}')
-            if element == Operations.ADD and element == op:
-                # print(f'adding {self._Elements[iter-1].get_value()} and {self._Elements[iter+1].get_value()}')
-                number = self._Elements[iter-1] + self._Elements[iter+1]
-                # print(f'new number {number.get_value()}')
-                self._Elements[iter] = number
-                del self._Elements[iter+1]
-                del self._Elements[iter-1]
-                iter = 0
-
-            elif element == Operations.MUL and element == op:
-                number = self._Elements[iter-1] * self._Elements[iter+1]
-                self._Elements[iter] = number
-                del self._Elements[iter+1]
-                del self._Elements[iter-1]
-                iter = 0
+            if self._highest_precedence[0] in self._ops_to_perform or self._highest_precedence[1] in self._ops_to_perform:
                 
-            elif element == Operations.DIV and element == op:
-                number = self._Elements[iter-1] / self._Elements[iter+1]
-                self._Elements[iter] = number
-                del self._Elements[iter+1]
-                del self._Elements[iter-1]
-                iter = 0
+                print('first loop')
+                while True:
+                    
+                    element = self._Elements[iter].get_value()
+                    if element in ['/', '*']:
 
-            else:
-                iter += 1
+                        if element == Operations.MUL:
+                            number = self._Elements[iter-1] * self._Elements[iter+1]
+                            self._Elements[iter] = number
+                            del self._Elements[iter+1]
+                            del self._Elements[iter-1]
+                            self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
+                            iter = 0
+                            
+                        if element == Operations.DIV:
+                            number = self._Elements[iter-1] / self._Elements[iter+1]
+                            self._Elements[iter] = number
+                            del self._Elements[iter+1]
+                            del self._Elements[iter-1]
+                            self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
+                            iter = 0
 
-            if iter == len(self._Elements) and op_type != 5:
+                    if not self._highest_precedence[0] in self._ops_to_perform and not self._highest_precedence[1] in self._ops_to_perform:
+                        break
+                    iter += 1
+                            
+            if self._lowest_precedence[0] in self._ops_to_perform or self._lowest_precedence[1] in self._ops_to_perform:
+
+                while True:
+                    element = self._Elements[iter].get_value()
+                    if element in ['+']:
+
+                        if element == Operations.ADD:
+                            number = self._Elements[iter-1] + self._Elements[iter+1]
+                            self._Elements[iter] = number
+                            del self._Elements[iter+1]
+                            del self._Elements[iter-1]
+                            self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
+                            iter = 0
+                            
+                    if not self._lowest_precedence[0] in self._ops_to_perform:
+                        break
+                    iter += 1
+
+            if iter == len(self._Elements):
                 iter = 0
-                op_type += 1
                 # print('starting over')
 
         self._calculation = self._Elements[0].get_value()

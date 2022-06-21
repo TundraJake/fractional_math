@@ -472,6 +472,34 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1')
 
+    def test_whole_number_division_multiplication_01(self):
+        exp = Expression('2 * 2 / 2 ')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2')
+
+    def test_whole_number_division_multiplication_02(self):
+        exp = Expression('2 * 2 * 2  / 3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2_2/3')
+
+    def test_whole_number_division_multiplication_03(self):
+        exp = Expression('2 * 3 * 3  / 3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '6')
+
+    def test_whole_number_division_multiplication_04(self):
+        exp = Expression('2 / 3 * 3  / 3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2/3')
+
 class Test_Moderate_Operations(unittest.TestCase):
 
     def test_fraction_addition_01(self):
@@ -560,6 +588,7 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '4_133/141')
+        
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, exit=True)
