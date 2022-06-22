@@ -1,5 +1,5 @@
 from operators import Operations
-from math import ceil, gcd, floor
+from math import gcd, floor
 
 class Number(object):
 
@@ -18,15 +18,20 @@ class Number(object):
                 temp = number.split('_')
                 whole = int(temp[0])
 
-                self._den = int(temp[1].split('/')[1])
-                if self._den == 0:
-                    raise Exception(f'Denominator cannot be zero! Numerator given \'{self._num}\', Denominator \'{self._den}\'')
- 
-                self._num = int(temp[1].split('/')[0]) + abs(whole) * self.get_denominator()
+                if self.whole_number_is_zero(whole):
+                    self._num = int(number.split('/')[0])
+                    self._den = int(number.split('/')[1])
+                else:
+
+                    self._den = int(temp[1].split('/')[1])
+                    if self._den == 0:
+                        raise Exception(f'Denominator cannot be zero! Numerator given \'{self._num}\', Denominator \'{self._den}\'')
+
+                    self._num = int(temp[1].split('/')[0]) + abs(whole) * self.get_denominator()
+                    
                 
-            
-                if whole < 0:
-                    self._num *= -1
+                    if whole < 0:
+                        self._num *= -1
 
             else:
                 self._num = int(number.split('/')[0])
@@ -58,6 +63,9 @@ class Number(object):
             else:
                 num = self.get_numerator()
                 return f'{num}/{self.get_denominator()}'
+
+    def whole_number_is_zero(self, whole):
+        return whole == 0
 
     def is_numerator_negative(self):
         return self.get_numerator() < 0

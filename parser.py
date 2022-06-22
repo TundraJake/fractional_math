@@ -37,10 +37,14 @@ class Parser(object):
                 if exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position == 0: 
                     position += 1
                     
-                elif exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position != 0:
+                elif exp_string[position - 1].isnumeric() and exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position != 0:
                     self._Operators.append(Operator(Operations.ADD))
                     self._Elements.append(Operator(Operations.ADD))
                     position += 1
+
+                elif exp_string[position - 1] in Operations.operators and exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position != 0:
+                    position += 1
+
 
                 elif exp_string[position] == Operations.SUB and exp_string[position-1] in Operations.operators and position >= 0:
                     number_so_far += exp_string[position]
@@ -60,7 +64,6 @@ class Parser(object):
 
             if exp_string[position].isnumeric():
                 while position < total_exp_len and (exp_string[position].isnumeric() or exp_string[position] == Operations.UNDERSCORE):
-
                     if exp_string[position] == Operations.UNDERSCORE:
                         number_so_far += exp_string[position]
                         position += 1

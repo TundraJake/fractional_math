@@ -287,7 +287,7 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator(0), Operations.DIV, parser.print_operators())
         self.assertEqual(parser.get_element_count(),  7)      
 
-    def test_fraction_addition_and_subtraction_parse_01(self):
+    def test_fraction_addition_and_subtraction(self):
         exp = Expression('1_1/2 - 1_1/2 + 1_1/2')
         self.assertEqual(exp.get_expression_string(), '1_1/2-1_1/2+1_1/2')
         parser = Parser(exp)
@@ -299,72 +299,229 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
         self.assertEqual(parser.get_element_count(),  5)      
 
+    def test_several_double_negatives_with_multiplication(self):
+        exp = Expression('--1_23/54 * --17/8 * -2/5 * --12/7')
+        self.assertEqual(exp.get_expression_string(), '--1_23/54*--17/8*-2/5*--12/7')
+        parser = Parser(exp)
+        self.assertEqual(parser.get_operator_count(), 6, parser.print_operators())
+        self.assertEqual(parser.get_number_count(),  7, parser.print_numbers())
+        self.assertEqual(parser.get_number(0), '1_23/54', parser.print_numbers())
+        self.assertEqual(parser.get_number(1), '17', parser.print_numbers())
+        self.assertEqual(parser.get_number(2), '8', parser.print_numbers())
+        self.assertEqual(parser.get_number(3), '-2', parser.print_numbers())
+        self.assertEqual(parser.get_number(4), '5', parser.print_numbers())
+        self.assertEqual(parser.get_number(5), '12', parser.print_numbers())
+        self.assertEqual(parser.get_number(6), '7', parser.print_numbers())
+        self.assertEqual(parser.get_operator(0), Operations.MUL, parser.print_operators())
+        self.assertEqual(parser.get_element_count(),  13)     
+
 class Test_Simple_Operations(unittest.TestCase):
 
-    def test_whole_number_addition_1(self):
+    def test_single_number_evaluation_01(self):
+        exp = Expression('1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1')
+
+    def test_single_number_evaluation_02(self):
+        exp = Expression('-1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1')
+
+    def test_single_number_evaluation_03(self):
+        exp = Expression('1_1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1_1/2')
+
+    def test_single_number_evaluation_04(self):
+        exp = Expression('-1_1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1_1/2')
+
+    def test_single_number_evaluation_05(self):
+        exp = Expression('--1_1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1_1/2')
+
+
+    def test_single_number_evaluation_06(self):
+        exp = Expression('--4/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2')
+
+    def test_single_number_evaluation_07(self):
+        exp = Expression('0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_single_number_evaluation_08(self):
+        exp = Expression('-0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_single_number_evaluation_09(self):
+        exp = Expression('--0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_single_number_evaluation_10(self):
+        exp = Expression('--0_4/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2')
+
+    def test_zero_addition_01(self):
+        exp = Expression('0 + 0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_addition_02(self):
+        exp = Expression('0 + 0 + 1 + 5')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '6')
+
+    def test_zero_subtraction_01(self):
+        exp = Expression('0 - 0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_subtraction_02(self):
+        exp = Expression('0 - 0 - 1 + 5')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '4')
+
+    def test_zero_multiplication_01(self):
+        exp = Expression('0 * 0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_multiplication_02(self):
+        exp = Expression('0 * 0 * -1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_multiplication_03(self):
+        exp = Expression('0 * 0 * -1 + 5 * 0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_multiplication_04(self):
+        exp = Expression('0 * 0 * -1 + 5 * 5')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '25')
+
+    def test_zero_division_01(self):
+        exp = Expression('0 / 5')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_zero_division_02(self):
+        exp = Expression('0 / 5 / 25')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_whole_number_addition_01(self):
         exp = Expression('1 + 1')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '2')
 
-    def test_whole_number_addition_2(self):
+    def test_whole_number_addition_02(self):
         exp = Expression('1 + 1 + 1')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '3')
 
-    def test_whole_number_addition_3(self):
+    def test_whole_number_addition_03(self):
         exp = Expression('5 + 24 + 721 + 10 + 40')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '800')
 
-    def test_whole_number_subtraction_1(self):
+    def test_whole_number_subtraction_01(self):
         exp = Expression('1 - 1')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '0')
 
-    def test_whole_number_subtraction_2(self):
+    def test_whole_number_subtraction_02(self):
         exp = Expression('1 - 1 - 1')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '-1')
 
-    def test_whole_number_subtraction_3(self):
+    def test_whole_number_subtraction_03(self):
         exp = Expression('1 - 1 - 999')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '-999')
 
-    def test_whole_number_multiplication_1(self):
+    def test_whole_number_multiplication_01(self):
         exp = Expression('10 * 10')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '100')
 
-    def test_whole_number_multiplication_2(self):
+    def test_whole_number_multiplication_02(self):
         exp = Expression('10 * 10 * 10')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1000')
 
-    def test_whole_number_multiplication_3(self):
+    def test_whole_number_multiplication_03(self):
         exp = Expression('10 * -10 * 10')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '-1000')
 
-    def test_whole_number_multiplication_4(self):
+    def test_whole_number_multiplication_04(self):
         exp = Expression('-10 * 10 * -10')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
@@ -596,12 +753,168 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '5_125/282')
 
-    def test_fraction_multiplikcation_01(self):
+    def test_fraction_multiplication_01(self):
         exp = Expression('1/2 * 1/2')
         parser = Parser(exp)
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1/4')
+
+    def test_fraction_multiplication_02(self):
+        exp = Expression('1/2 * 1/8')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/16')
+
+    def test_fraction_multiplication_03(self):
+        exp = Expression('1/2 * 16/8')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1')
+
+    def test_fraction_multiplication_04(self):
+        exp = Expression('1/2 * 17/8')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1_1/16')
+
+    def test_fraction_multiplication_05(self):
+        exp = Expression('23/54 * 17/8')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '391/432')
+
+    def test_fraction_multiplication_06(self):
+        exp = Expression('23/54 * 17/8 * 2/5 * 12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '391/630')
+
+    def test_fraction_multiplication_07(self):
+        exp = Expression('1_23/54 * 17/8 * 2/5 * 12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2_7/90')
+
+    def test_fraction_multiplication_08(self):
+        exp = Expression('--1_23/54 * --17/8 * -2/5 * --12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-2_7/90')
+
+    def test_fraction_multiplication_09(self):
+        exp = Expression('--1_23/54 * --17/8 * --2/5 * --12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2_7/90')
+
+    def test_fraction_multiplication_10(self):
+        exp = Expression('77/54 * (57/8) *  7/5 * 19/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '38_437/720')
+
+    def test_fraction_multiplication_10(self):
+        exp = Expression('1_23/54 * 5_17/8 * 1_2/5 * 19/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '38_437/720')
+
+    def test_fraction_multiplication_11(self):
+        exp = Expression('1_23/54 * -17/8 * 2/5 * 12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-2_7/90')
+
+    def test_fraction_multiplication_12(self):
+        exp = Expression('1_23/54 * -17/8 * -2/5 * 12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '2_7/90')
+
+    def test_fraction_multiplication_13(self):
+        exp = Expression('-1_23/54 * -17/8 * -2/5 * 12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-2_7/90')
+
+    def test_fraction_multiplication_14(self):
+        exp = Expression('-1_23/54 * -17/8 * -2/5 * 5_12/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-8_149/1080')
+
+    def test_fraction_multiplication_14(self):
+        exp = Expression('-77/54 * -17/8 * -2/5 * 47/7')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-8_149/1080')
+
+    def test_fraction_subtraction_01(self):
+        exp = Expression('1/2 - 1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_fraction_subtraction_02(self):
+        exp = Expression('1/2 - 1/3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '1/6')
+
+    def test_fraction_subtraction_03(self):
+        exp = Expression('1/2 - 1/3 - 1/3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1/6')
+
+    def test_fraction_subtraction_04(self):
+        exp = Expression('1/2 - 1/3 - 1/3 - 1/3')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1/2')
+
+    def test_fraction_subtraction_05(self):
+        exp = Expression('0_1/2 - 0_1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_fraction_subtraction_06(self):
+        exp = Expression('-0_1/2 - 0_1/2')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1')
+
+    def test_fraction_subtraction_07(self):
+        exp = Expression('-0_1/2 - 0')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1/2')
+
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, exit=True)
