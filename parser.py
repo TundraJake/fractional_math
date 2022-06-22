@@ -33,6 +33,9 @@ class Parser(object):
         div_count = 0 
 
         while position < total_exp_len:
+            if exp_string[position].isalpha() or exp_string[position] in Operations.illegal_chars:
+                raise Exception(f'Invalid character {exp_string[position]}!')
+
             if self.__is_operator(exp_string[position]):
                 if exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position == 0: 
                     position += 1
@@ -81,15 +84,25 @@ class Parser(object):
                             elif exp_string[position].isnumeric():
                                 number_so_far += exp_string[position]
                                 position += 1
+                            elif exp_string[position] == Operations.SUB:
+                                raise Exception('Incorrect format! The denominator and numerator cannot be negative in a mixed number!')
+                            elif exp_string[position] == Operations.UNDERSCORE:
+                                raise Exception('Incorrect format! There must be only one leading underscore!')
                     else:
                         number_so_far += exp_string[position]
                         position += 1
 
+                        
+
                 self._Numbers.append(Number(number_so_far))
                 self._Elements.append(Number(number_so_far))
+
+                if self.__number_of_elements_is_even():
+                    raise Exception('Invalid Expression!')
                 number_so_far = ''
 
-
+    def __number_of_elements_is_even(self):
+        return self.get_element_count() % 2 == 0
 
     def __is_operator(self, char):
         return char in Operations.operators

@@ -409,6 +409,20 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '-3')
 
+    def test_multiple_negative_sign_01(self):
+        exp = Expression('----1 --- 1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '0')
+
+    def test_multiple_negative_sign_02(self):
+        exp = Expression('-----1')
+        parser = Parser(exp)
+        rvp = ExpEvaluator(parser)
+        rvp.calculate()
+        self.assertEqual(rvp.get_calculation(), '-1')
+
     def test_zero_addition_01(self):
         exp = Expression('0 + 0')
         parser = Parser(exp)
@@ -978,6 +992,142 @@ class Test_Extensive_Operations(unittest.TestCase):
         rvp = ExpEvaluator(parser)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '23_1/2')
+
+class Test_Bad_Input(unittest.TestCase):
+
+    def test_01(self):
+        exp = Expression('*0')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_02(self):
+        exp = Expression('-*0')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_03(self):
+        exp = Expression('-*+10')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_04(self):
+        exp = Expression('10 -* 10')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_05(self):
+        exp = Expression('1/0')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_06(self):
+        exp = Expression('1/5 + 1/0')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_07(self):
+        exp = Expression('1 + 3/4 - 1/2/0 * 7')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_08(self):
+        exp = Expression('1 -0_-3/4 * 1/2 * 7 / 6 * 3')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+   
+    def test_09(self):
+        exp = Expression('--1 + 4_3/-4 * 1/2 * 7 / 6 * 3')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_10(self):
+        exp = Expression('--1 + 4_3/4 * 1/2 * --7_1/8 / 6 * 3 --1 --1_-2/-3')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_11(self):
+        exp = Expression('--10_10_9/2 + 4_3/4 * 1/2 * --7_8/8 / 9 * 3 --1 --1_2/3')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_12(self):
+        exp = Expression('--10__9/2 + 4_3/4 * 1/2 * --7_8/8 / 9 * 3 --1 --1_2/3')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_13(self):
+        exp = Expression('a')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+
+    def test_14(self):
+        exp = Expression('1 + 2a')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_15(self):
+        exp = Expression('1 + a')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_16(self):
+        exp = Expression('1 + @')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_17(self):
+        exp = Expression('1 + !')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_18(self):
+        exp = Expression('1 + \'')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
+
+    def test_19(self):
+        exp = Expression('1 + \"')
+        with self.assertRaises(Exception) as e:
+            parser = Parser(exp)
+            rvp = ExpEvaluator(parser)
+            rvp.calculate()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2, exit=True)

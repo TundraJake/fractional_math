@@ -7,6 +7,7 @@ class Operations(object):
     MUL = '*'
     UNDERSCORE = '_'
     
+    illegal_chars = '[]\{\}!@#$%^&()?=,:;`~<>\'\"'
     operators = [MUL, DIV, ADD, SUB]
 
 class Operator(Entity):

@@ -24,9 +24,6 @@ class Number(object):
                 else:
 
                     self._den = int(temp[1].split('/')[1])
-                    if self._den == 0:
-                        raise Exception(f'Denominator cannot be zero! Numerator given \'{self._num}\', Denominator \'{self._den}\'')
-
                     self._num = int(temp[1].split('/')[0]) + abs(whole) * self.get_denominator()
                     
                 
@@ -40,6 +37,9 @@ class Number(object):
                 if self._num < 0 and self._den < 0:
                     self._num = abs(self._num)
                     self._den = abs(self._den)
+
+            if self.denominator_is_zero():
+                raise Exception('Denominator cannot be zero!')
 
             self._gcd = gcd(self._num, self._den)
 
@@ -63,6 +63,9 @@ class Number(object):
             else:
                 num = self.get_numerator()
                 return f'{num}/{self.get_denominator()}'
+
+    def denominator_is_zero(self):
+        return self.get_denominator() == 0
 
     def whole_number_is_zero(self, whole):
         return whole == 0
