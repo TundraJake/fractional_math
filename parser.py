@@ -1,15 +1,16 @@
-import random
 from operators import Operations, Operator
-from expression import Expression
 from number import Number
 
 class Parser(object):
 
-    def __init__(self, _expression):
-        self._expression = _expression
+    def __init__(self):
+        self._expression = ''
         self._Numbers = []
         self._Operators = []
         self._Elements = []
+
+    def set_expression(self, exp):
+        self._expression = exp
         self.parse()
 
     def print_operators(self):
