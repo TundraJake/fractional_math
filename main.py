@@ -18,7 +18,8 @@ if __name__ == '__main__':
                 exp = input('? ')
 
                 if exp == 'quit':
-                    print('exiting calculator')
+                    print('Exiting calculator')
+                    print_commands()
                     break
                 else:
                     try:
