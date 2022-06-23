@@ -1,6 +1,6 @@
-from parser import Parser
-from operators import Operations, Operator
-from expression import Expression
+from .parser import Parser
+from .operators import Operations, Operator
+from .expression import Expression
 import copy
 
 class ExpEvaluator(object):

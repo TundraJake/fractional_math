@@ -1,5 +1,5 @@
-from operators import Operations, Operator
-from number import Number
+from .operators import Operations, Operator
+from .number import Number
 
 class Parser(object):
 
@@ -35,7 +35,7 @@ class Parser(object):
 
         while position < total_exp_len:
             if exp_string[position].isalpha() or exp_string[position] in Operations.illegal_chars:
-                raise Exception(f'Invalid character {exp_string[position]}!')
+                raise Exception(f'Invalid character \'{exp_string[position]}\'!')
 
             if self.__is_operator(exp_string[position]):
                 if exp_string[position] == Operations.SUB and exp_string[position+1] == Operations.SUB and position == 0: 

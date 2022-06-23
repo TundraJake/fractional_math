@@ -1,4 +1,4 @@
-from operators import Operations
+from .operators import Operations
 from math import gcd, floor
 
 class Number(object):

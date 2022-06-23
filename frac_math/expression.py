@@ -1,4 +1,3 @@
-
 class Expression(object):
 
     def __init__(self, expression):

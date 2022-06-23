@@ -1,13 +1,11 @@
 import unittest
-from parser import Parser
+from frac_math.parser import Parser
 
-from yaml import parse
-from expression import Expression
-from operators import Operations
-from exp_evaluator import ExpEvaluator
+from frac_math.expression import Expression
+from frac_math.operators import Operations
+from frac_math.exp_evaluator import ExpEvaluator
 import random
 import string
-import sys, os
 
 
 class Test_Parser(unittest.TestCase):
@@ -62,7 +60,6 @@ class Test_Parser(unittest.TestCase):
         self.assertEqual(parser.get_number_count(),  2)
         self.assertEqual(parser.get_operator(0), Operations.ADD, parser.print_operators())
         self.assertEqual(parser.get_element_count(),  3)
-
 
     def test_long_simple_expression_1(self):
         exp = Expression('1 + 5 + 10')
@@ -379,7 +376,6 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1_1/2')
 
-
     def test_single_number_evaluation_06(self):
         exp = '--4/2'
         rvp = ExpEvaluator(exp)
@@ -602,13 +598,11 @@ class Test_Simple_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '10')
 
-
     def test_whole_number_division_08(self):
         exp = '21 / 2'
         rvp = ExpEvaluator(exp)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '10_1/2')
-
 
     def test_whole_number_division_09(self):
         exp = '-21 / 2'
@@ -678,7 +672,6 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1')
 
-
     def test_fraction_addition_02(self):
         exp = '1/2 + 1/2 + 1/2'
         rvp = ExpEvaluator(exp)
@@ -696,7 +689,6 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp = ExpEvaluator(exp)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '3')
-
 
     def test_fraction_addition_05(self):
         exp = '3/2 + 6/5 + 1/2 + 1/2'
@@ -733,7 +725,6 @@ class Test_Moderate_Operations(unittest.TestCase):
         rvp = ExpEvaluator(exp)
         rvp.calculate()
         self.assertEqual(rvp.get_calculation(), '1_133/141')
-
 
     def test_fraction_addition_and_subtraction_05(self):
         exp = '-1_1/2 + 1_1/2 + 1_1/2 -- 1_1/2 - 1_24/423'

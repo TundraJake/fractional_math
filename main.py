@@ -1,38 +1,36 @@
 import unittest
-from src import *
+from frac_math.exp_evaluator import ExpEvaluator
+from frac_math.cli_commands import print_commands, print_greeting, print_invalid_message, print_quiting_message
 from tests import frac_tests
-from parser import Parser
 
 if __name__ == '__main__':
+    print_greeting()
+    print_commands()
     while True:
-        print('Welcome to the fracion calculator! \n\t Built with Python 3.8.4!')
-        print('')
-        print('Commands:')
-        print('')
-        print('\t tests: run all tests \n\t calc: enter calculator \n\t quit: quit the program')
-        print('')
         user_input = input('\nEnter a command: ')
         if user_input == 'tests':
             suite = unittest.TestLoader().loadTestsFromModule(frac_tests)
             unittest.TextTestRunner(verbosity=2).run(suite)
         elif user_input == 'calc':
-            
+            print('Enter \'quit\' to exit...')
             exp = ''
-            parser = Parser()
             while exp != 'exit':
                 exp = input('? ')
 
-                if not exp:
+                if exp == 'quit':
                     print('exiting calculator')
                     break
                 else:
                     try:
-                        print()
+                       evaluator = ExpEvaluator(exp)
+                       evaluator.calculate()
+                       print(f'> {evaluator.get_calculation()}')
                     except Exception as e:
                         print(e)
                 
         elif user_input == 'quit':
-            print('Good bye!')
-            exit()
+            print_quiting_message()
+        elif user_input == 'help':
+            print_commands()
         else:
-            print('Invalid command')
+            print_invalid_message()
