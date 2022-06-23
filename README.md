@@ -1,4 +1,4 @@
-# Fractional Math Calculator ![test coverage badge](https://img.shields.io/badge/test%20coverage-96%25-brightgreen) ![tests badge](https://img.shields.io/badge/tests-41%20passed%2C%200%20failed-brightgreen)
+# Fractional Math Calculator ![test coverage badge](https://img.shields.io/badge/test%20coverage-96%25-brightgreen) ![tests badge](https://img.shields.io/badge/tests-143%20passed%2C%200%20failed-brightgreen)
 A command line program that takes a string of whole and mixed numbers and returns the mathematical result.
 
 
