@@ -36,14 +36,26 @@ pip install -e .
 
 # Run 
 ```python
-python3 run.py
+python3 main.py
 ```
 
 # Run Tests 
+Tests can be performed two ways.
+One:
 ```
-pytest
+python3 tests/frac_tests.py
+```
+Two:
+* 
+Run the script
+```
+python3 main.py
+```
+and in the prompt, enter ***tests***
+```
+# Command Prompt
+Enter a command: tests
 ```
 
 # Future Work 
 * Make compatible with parenthesis
-* Add GithubActions workflow with auto-running of tests and a dynamic badge to match. 
