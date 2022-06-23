@@ -7,9 +7,6 @@ class Expression(object):
             raise Exception('Expression is empty')
         self._expression = expression
 
-    def get_expression_string(self):
-        return self._expression
-
     def get_length(self):
         return len(self._expression)
 

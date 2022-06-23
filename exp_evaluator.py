@@ -1,11 +1,14 @@
 from parser import Parser
-from tempfile import tempdir
 from operators import Operations, Operator
+from expression import Expression
 import copy
 
 class ExpEvaluator(object):
 
-    def __init__(self, parser):
+    def __init__(self, expression):
+        parser = Parser()
+        exp = Expression(expression)
+        parser.set_expression(exp)
         self._Elements = copy.deepcopy(parser.get_elements())
         self._calculation = 0
         self._ops_to_perform = [x.get_value() for x in self._Elements if type(x) == Operator]
