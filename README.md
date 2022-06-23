@@ -41,13 +41,13 @@ python3 main.py
 
 # Run Tests 
 Tests can be performed two ways.
+
 One:
 ```
 python3 tests/frac_tests.py
 ```
-Two:
-* 
-Run the script
+
+Two: Run the script
 ```
 python3 main.py
 ```

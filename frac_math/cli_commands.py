@@ -1,5 +1,5 @@
 def print_greeting():
-    print('Welcome to the fracion calculator! \n\t Built with Python 3.8.4!')
+    print('Welcome to the fracion calculator! \n\t Built with Python 3.8.10!')
 
 def print_commands():
     print('')
