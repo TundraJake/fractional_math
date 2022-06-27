@@ -1,6 +1,6 @@
 import unittest
 from frac_math.exp_evaluator import ExpEvaluator
-from frac_math.cli_commands import print_commands, print_greeting, print_invalid_message, print_quiting_message
+from frac_math.cli_commands import print_commands, print_greeting, print_invalid_message, print_quit_message
 from tests import frac_tests
 
 if __name__ == '__main__':
@@ -17,7 +17,7 @@ if __name__ == '__main__':
             while exp != 'exit':
                 exp = input('? ')
 
-                if exp == 'quit':
+                if exp == 'exit':
                     print('Exiting calculator')
                     print_commands()
                     break
@@ -30,7 +30,7 @@ if __name__ == '__main__':
                         print(e)
                 
         elif user_input == 'quit':
-            print_quiting_message()
+            print_quit_message()
         elif user_input == 'help':
             print_commands()
         else:

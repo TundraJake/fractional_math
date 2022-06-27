@@ -27,7 +27,7 @@ Example run:
 * Clone repo
 * Run setup.py from Python 3+
 ```python
-python3 setup.py
+python3 setup.py install
 ```
 * Install package via symlink for dev code
 ```
