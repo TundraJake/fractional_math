@@ -25,6 +25,14 @@ Example run:
 
 # Setup
 * Clone repo
+* Create a virtual environment
+```
+virtualenv <name of venv>
+```
+* Activate the fresh environment (linux)
+```
+source <name of venv>/bin/activate
+```
 * Run setup.py from Python 3+
 ```python
 python3 setup.py install
