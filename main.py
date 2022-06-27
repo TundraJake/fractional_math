@@ -12,7 +12,7 @@ if __name__ == '__main__':
             suite = unittest.TestLoader().loadTestsFromModule(frac_tests)
             unittest.TextTestRunner(verbosity=2).run(suite)
         elif user_input == 'calc':
-            print('Enter \'quit\' to exit...')
+            print('Enter \'exit\' to exit...')
             exp = ''
             while exp != 'exit':
                 exp = input('? ')
@@ -23,13 +23,13 @@ if __name__ == '__main__':
                     break
                 else:
                     try:
-                       evaluator = ExpEvaluator(exp)
-                       evaluator.calculate()
-                       print(f'> {evaluator.get_calculation()}')
+                        evaluator = ExpEvaluator(exp)
+                        evaluator.calculate()
+                        print(f'> {evaluator.get_calculation()}')
                     except Exception as e:
                         print(e)
                 
-        elif user_input == 'quit':
+        elif user_input == 'exit':
             print_quit_message()
         elif user_input == 'help':
             print_commands()
